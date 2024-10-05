@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput, ActivityIndicator, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 
@@ -9,7 +9,8 @@ const ConteudoScreen = () => {
   const [mensagens, setMensagens] = useState([
     { id: 1, texto: "Olá! Como posso te ajudar com assuntos financeiros hoje?", tipo: 'sistema' },
   ]);
-  const [loading, setLoading] = useState(false); // New loading state
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(''); // New error message state
 
   const noticias = [
     { id: 1, titulo: "Fundamentos da Educação Financeira", resumo: "Entenda os conceitos básicos de finanças pessoais..." },
@@ -30,14 +31,15 @@ const ConteudoScreen = () => {
       const novaMensagem = { id: mensagens.length + 1, texto: mensagem, tipo: 'usuario' };
       setMensagens([...mensagens, novaMensagem]);
       setMensagem('');
-      setLoading(true); // Set loading to true
+      setLoading(true);
+      setErrorMessage(''); // Reset error message
 
       try {
         const API_KEY = Constants.manifest.extra.apiKey;
         const API_ENDPOINT = Constants.manifest.extra.apiEndpoint;
         const API_VERSION = Constants.manifest.extra.apiVersion;
 
-        const response = await fetch(`${API_ENDPOINT}/openai/deployments/gpt-4/chat/completions?api-version=${API_VERSION}`, {
+        const response = await fetch(`${API_ENDPOINT}/sopenai/deployments/gpt-4/chat/completions?api-version=${API_VERSION}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -62,9 +64,9 @@ const ConteudoScreen = () => {
         const novaMensagemAI = { id: mensagens.length + 2, texto: aiResponse, tipo: 'sistema' };
         setMensagens((prevMensagens) => [...prevMensagens, novaMensagemAI]);
       } catch (error) {
-        Alert.alert('Error', 'Failed to send message to AI: ' + error.message);
+        setErrorMessage('Erro de conexão'); // Set the error message
       } finally {
-        setLoading(false); // Set loading to false
+        setLoading(false);
       }
     }
   };
@@ -109,7 +111,11 @@ const ConteudoScreen = () => {
             {loading && (
               <View style={styles.loadingContainer}>
                 <ActivityIndicator size="small" color="#007BFF" />
+                <Text style={styles.loadingText}>Carregando...</Text>
               </View>
+            )}
+            {errorMessage !== '' && (
+              <Text style={styles.errorMessage}>{errorMessage}</Text> // Display error message
             )}
           </ScrollView>
 
