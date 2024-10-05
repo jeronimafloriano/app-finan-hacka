@@ -16,6 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Entypo from '@expo/vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
 import HistoryScreen from './HistoryScreen';
+import axios from 'axios'; // Import axios for HTTP requests
 
 export default function FinanceScreen() {
   
@@ -93,6 +94,13 @@ export default function FinanceScreen() {
     setModalVisible(false);
   };
 
+  const handleNotificationClick = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/insights');
+      alert(response.data.response);
+    } catch (error) {}
+  };
+
   return (
     <ScrollView style={styles.container}>
       {/* Header */}
@@ -106,6 +114,7 @@ export default function FinanceScreen() {
           size={24}
           color="black"
           style={styles.icon}
+          onPress={handleNotificationClick} // Add onPress handler
         />
       </View>
 
@@ -169,25 +178,6 @@ export default function FinanceScreen() {
         </View>
       </View>
 
-      {/* My Plan Section */}
-      <View style={styles.planSection}>
-        <Text style={styles.sectionTitle}>Meu Objetivo</Text>
-        <View style={styles.planRow}>
-          <View style={styles.planCard}>
-            <Text style={styles.planCategory}>#Imóvel</Text>
-            <Text style={styles.planTitle}>Comprar Imóvel</Text>
-            <View style={styles.progressContainer}>
-              <Text>R$240</Text>
-              <View style={styles.progressBar}>
-                <View
-                  style={[styles.progressFill, { width: `${(240 / 400) * 100}%` }]}
-                />
-              </View>
-              <Text>R$400</Text>
-            </View>
-          </View>
-        </View>
-      </View>
       {/*sessão botão learning*/}
       <View style={styles.planSection}>
         <Text style={styles.sectionTitle}>Meu Objetivo</Text>

@@ -28,9 +28,13 @@ function FinanceStack() {
         options={{headerShown: false}} 
       />
       <Stack.Screen 
-        name="FinancialPlanScreen",
-        headerTitle: "Plano Financeiro",
-        component={FinancialPlanScreen} />
+        name="FinancialPlanScreen"
+        component={FinancialPlanScreen} 
+        options={{ 
+          headerTitle: "Plano Financeiro",
+          headerTitleAlign: 'center'
+        }}
+        />
       <Stack.Screen 
         name="InitScreen" 
         component={InitScreen} 
