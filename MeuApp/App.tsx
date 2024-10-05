@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'react-native';
 import FinanceScreen from './screens/FinanceScreen';
 import HomeScreen from './screens/HomeScreen';
+import InitScreen from './screens/InitScreen';
 import ConfirmDataScreen from './screens/ConfirmDataScreen';
 import ConteudoScreen from './screens/ConteudoScreen';
 import HistoryScreen from './screens/HistoryScreen';  // Import HistoryScreen
@@ -39,7 +40,8 @@ function HomeStack() {
     <Stack.Navigator>
       <Stack.Screen 
         name="Home" 
-        component={HomeScreen} 
+        //component={HomeScreen} 
+        component={InitScreen}
         options={{
           headerTitle: () => (
             <Image

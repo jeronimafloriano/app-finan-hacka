@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Modal,
+  Image,
   TextInput,
   Alert,
   TouchableWithoutFeedback,
@@ -181,11 +182,11 @@ export default function FinanceScreen() {
 
        <View style={styles.offersSection}>
         <Text style={styles.sectionTitle}>Ofertas</Text>
-        <View style={styles.offerCard}>
-          <Text style={styles.offerText}>
-            Contrate agora e ganhe 1000 pontos Livelo!
-          </Text>
-        </View>
+        <Image 
+          source={require('../assets/5-erros.png')} 
+          style={styles.offerImage} 
+          resizeMode="contain" 
+        />
       </View>
 
       {/* Modal for Adding Income/Expense */}
@@ -444,12 +445,17 @@ fontWeight: 'bold',
   },
   offerCard: {
     padding: 15,
-    backgroundColor: '#e0ffe0',
+    backgroundColor: '#FFFFFF',
     borderRadius: 8,
   },
   offerText: {
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-  }
+  },
+  offerImage: {
+    width: '100%',
+    height: 150,  // Ajuste de altura conforme necessário
+    marginBottom: 15,
+  },
 });
