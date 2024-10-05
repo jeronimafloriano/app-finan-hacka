@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Constants from 'expo-constants';
 
 const ConteudoScreen = () => {
   const [chatVisible, setChatVisible] = useState(false);
@@ -8,11 +9,12 @@ const ConteudoScreen = () => {
   const [mensagens, setMensagens] = useState([
     { id: 1, texto: "Olá! Como posso te ajudar com assuntos financeiros hoje?", tipo: 'sistema' },
   ]);
+  const [loading, setLoading] = useState(false); // New loading state
 
   const noticias = [
-    { id: 1, titulo: "Fundamentos da Educação Financeira", resumo: "Entenda os conceitos básicos de finanças pessoais, incluindo orçamento, poupança, e planejamento financeiro. Ideal para iniciantes que desejam entender como gerenciar seu dinheiro de forma eficaz." },
-    { id: 2, titulo: "Investimentos para Iniciantes", resumo: "Aprenda os princípios fundamentais dos investimentos, incluindo ações, títulos, fundos mútuos e imóveis, que podem ajudar a tomar decisões de investimento informadas." },
-    { id: 3, titulo: "Planejamento de Aposentadoria", resumo: "Estratégias para garantir uma aposentadoria confortável, como planos de previdência, investimentos de longo prazo e gestão de riscos." },
+    { id: 1, titulo: "Fundamentos da Educação Financeira", resumo: "Entenda os conceitos básicos de finanças pessoais..." },
+    { id: 2, titulo: "Investimentos para Iniciantes", resumo: "Aprenda os princípios fundamentais dos investimentos..." },
+    { id: 3, titulo: "Planejamento de Aposentadoria", resumo: "Estratégias para garantir uma aposentadoria confortável..." },
   ];
 
   const handlePress = (titulo) => {
@@ -23,11 +25,47 @@ const ConteudoScreen = () => {
     setChatVisible(!chatVisible);
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (mensagem.trim() !== '') {
       const novaMensagem = { id: mensagens.length + 1, texto: mensagem, tipo: 'usuario' };
       setMensagens([...mensagens, novaMensagem]);
       setMensagem('');
+      setLoading(true); // Set loading to true
+
+      try {
+        const API_KEY = Constants.manifest.extra.apiKey;
+        const API_ENDPOINT = Constants.manifest.extra.apiEndpoint;
+        const API_VERSION = Constants.manifest.extra.apiVersion;
+
+        const response = await fetch(`${API_ENDPOINT}/openai/deployments/gpt-4/chat/completions?api-version=${API_VERSION}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'api-key': `${API_KEY}`, 
+            'azure-region': 'canadacentral'
+          },
+          body: JSON.stringify({
+            messages: [
+              { role: 'system', content: 'Você é um assistente virtual financeiro.' },
+              { role: 'user', content: mensagem }
+            ],
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch response from AI');
+        }
+
+        const data = await response.json();
+        const aiResponse = data.choices[0].message.content;
+
+        const novaMensagemAI = { id: mensagens.length + 2, texto: aiResponse, tipo: 'sistema' };
+        setMensagens((prevMensagens) => [...prevMensagens, novaMensagemAI]);
+      } catch (error) {
+        Alert.alert('Error', 'Failed to send message to AI: ' + error.message);
+      } finally {
+        setLoading(false); // Set loading to false
+      }
     }
   };
 
@@ -68,6 +106,11 @@ const ConteudoScreen = () => {
                 {mensagem.texto}
               </Text>
             ))}
+            {loading && (
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="small" color="#007BFF" />
+              </View>
+            )}
           </ScrollView>
 
           <View style={styles.chatContent}>
