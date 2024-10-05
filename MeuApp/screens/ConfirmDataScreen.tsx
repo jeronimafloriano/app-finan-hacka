@@ -1,27 +1,32 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, ActivityIndicator } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const ConfirmDataScreen = () => {
+  const navigation = useNavigation(); 
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  const [ganhos, setGanhos] = useState("R$ 5,00");
-  const [despesasEssenciais, setDespesasEssenciais] = useState("R$ 2,00");
-  const [despesasNaoEssenciais, setDespesasNaoEssenciais] = useState("R$ 1,00");
+  const [ganhos, setGanhos] = useState("R$ 1000,00");
+  const [despesasEssenciais, setDespesasEssenciais] = useState("R$ 500,00");
+  const [despesasNaoEssenciais, setDespesasNaoEssenciais] = useState("R$ 200,00");
 
-  // Lista de instituições
+
   const instituicoes = ['BB', 'CEF', 'BRA'];
 
   const handleConfirm = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      alert("Dados confirmados!");
-    }, 2000); // Simula um tempo de carregamento
+      navigation.navigate('Finanças', {
+        screen: 'FinanceScreen',
+      });
+    }, 1000); 
   };
+  
 
   const handleEdit = () => {
-    setIsEditing(!isEditing); // Alterna entre modo de edição e exibição
+    setIsEditing(!isEditing); 
   };
 
   return (
@@ -75,15 +80,13 @@ const ConfirmDataScreen = () => {
 
       {/* Caixa para "Instituições Consultadas" */}
       <View style={styles.item}>
-  <Text style={styles.itemText}>Instituições Consultadas</Text>
-  {/* Adicionar marginTop para espaçamento entre o título e as instituições */}
-  <View style={styles.institutionContainer}> 
-    {instituicoes.map((instituicao, index) => (
-      <Text key={index} style={styles.institutionText}>- {instituicao}</Text>
-    ))}
-  </View>
-</View>
-
+        <Text style={styles.itemText}>Instituições Consultadas</Text>
+        <View style={styles.institutionContainer}>
+          {instituicoes.map((instituicao, index) => (
+            <Text key={index} style={styles.institutionText}>- {instituicao}</Text>
+          ))}
+        </View>
+      </View>
 
       {/* Loading e botões de ação */}
       {loading ? (
@@ -133,15 +136,15 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 16,
     color: '#000000',
-    marginBottom: 5, // Adiciona espaçamento entre o texto e as instituições
+    marginBottom: 5, 
   },
   institutionContainer: {
-    marginTop: 5, // Adiciona espaçamento entre o título e as instituições
+    marginTop: 5,
   },
   institutionText: {
     fontSize: 16,
     color: '#000000',
-    marginTop: 2,  // Pequeno espaçamento entre as instituições
+    marginTop: 2, 
   },
   value: {
     fontSize: 16,

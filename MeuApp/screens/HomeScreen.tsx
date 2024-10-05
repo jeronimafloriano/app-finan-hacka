@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
-import ConfirmDataScreen from './ConfirmDataScreen';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -38,7 +37,7 @@ const HomeScreen = () => {
     if (item.text !== "Outros") {
       navigation.navigate('ConfirmDataScreen');
     } else {
-      alert('Você clicou na opção "Outros".'); // Ou você pode adicionar outra navegação aqui
+      alert('Você clicou na opção "Outros".'); 
     }
   };
 
@@ -49,7 +48,7 @@ const HomeScreen = () => {
         <TouchableOpacity 
           key={index} 
           style={styles.item} 
-          onPress={() => handleNavigation(item)} // Adiciona navegação ao clicar
+          onPress={() => handleNavigation(item)} 
         >
           <View style={styles.iconContainer}>
             <MaterialIcons name={item.icon} size={20} color="black" /> 

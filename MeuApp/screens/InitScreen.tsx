@@ -1,11 +1,4 @@
-/**
- * Horizontal Progress Bar com Animated API
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Animated,
   Easing,
@@ -14,30 +7,44 @@ import {
   Text,
   View,
 } from 'react-native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 
-const App: () => React$Node = () => {
+type RootStackParamList = {
+  InitScreen: undefined;
+  ConfirmDataScreen: undefined;
+};
+
+const InitScreen = () => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [offsetX] = useState(new Animated.Value(-400));
+
   const translate = Animated.timing(offsetX, {
     toValue: 0,
     duration: 1000,
     easing: Easing.inOut(Easing.linear),
     useNativeDriver: true,
   });
+
   const reset = Animated.timing(offsetX, {
     toValue: -430,
     duration: 0,
     useNativeDriver: true,
   });
+
   const animation = Animated.sequence([translate, reset]);
+
   useEffect(() => {
     Animated.loop(animation).start();
 
-    // Substitua esse setTimeout por uma chamada http ou qualquer outra chamada de serviço.
-    setTimeout(() => {
-      console.log('Chamar serviço');
-    }, 4000);
-  }, [animation]);
-  const transform = {transform: [{translateX: offsetX}]};
+    const timer = setTimeout(() => {
+      navigation.replace('ConfirmDataScreen'); 
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [animation, navigation]);
+
+  const transform = { transform: [{ translateX: offsetX }] };
+
   return (
     <SafeAreaView>
       <View style={styles.headerContentContainer}>
@@ -53,9 +60,6 @@ const App: () => React$Node = () => {
       </Animated.View>
       <View style={styles.syncContentContainer}>
         <Text style={styles.title3}>Não feche ou saia do aplicativo.</Text>
-        <Text style={styles.body2}>
-          Você pode aproveitar para fazer um alongamento.
-        </Text>
       </View>
     </SafeAreaView>
   );
@@ -94,4 +98,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default InitScreen;

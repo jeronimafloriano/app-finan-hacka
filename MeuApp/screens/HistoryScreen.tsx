@@ -7,7 +7,7 @@ export default function HistoryScreen({ route }) {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.header}>History</Text>
+      <Text style={styles.header}>Histórico</Text>
       {transactions.length === 0 ? (
         <Text style={styles.noTransactions}>No transactions yet</Text>
       ) : (

@@ -10,7 +10,7 @@ const ConteudoScreen = () => {
     { id: 1, texto: "Olá! Como posso te ajudar com assuntos financeiros hoje?", tipo: 'sistema' },
   ]);
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(''); // New error message state
+  const [errorMessage, setErrorMessage] = useState(''); 
 
   const noticias = [
     { id: 1, titulo: "Fundamentos da Educação Financeira", resumo: "Entenda os conceitos básicos de finanças pessoais..." },
@@ -32,9 +32,10 @@ const ConteudoScreen = () => {
       setMensagens([...mensagens, novaMensagem]);
       setMensagem('');
       setLoading(true);
-      setErrorMessage(''); // Reset error message
+      setErrorMessage(''); 
 
       try {
+
         const API_KEY = Constants.manifest.extra.apiKey;
         const API_ENDPOINT = Constants.manifest.extra.apiEndpoint;
         const API_VERSION = Constants.manifest.extra.apiVersion;
@@ -48,7 +49,7 @@ const ConteudoScreen = () => {
           },
           body: JSON.stringify({
             messages: [
-              { role: 'system', content: 'Você é um assistente virtual financeiro.' },
+              { role: 'system', content: 'Você é um assistente virtual financeiro, você só responde perguntas relacionadas a finanças.' },
               { role: 'user', content: mensagem }
             ],
           }),

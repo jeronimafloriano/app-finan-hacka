@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -6,10 +7,8 @@ const InicioScreen = () => {
   const [cpf, setCpf] = useState('/');
   const navigation = useNavigation();
 
-  // Função para validar CPF (formato simples, sem checagem de dígito verificador)
   const validarCPF = (cpf) => {
     Alert.alert(cpf);
-    // Remove pontos e traços do CPF
     const cpfLimpo = cpf.replace(/\D/g, '');
     return cpfLimpo.length === 11;
   };
@@ -24,14 +23,6 @@ const InicioScreen = () => {
       Alert.alert('Erro', 'CPF inválido! Por favor, insira um CPF válido.');
     }
   };
-
-  /*const handleConfirm = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      alert("Dados confirmados!");
-    }, 2000); // Simula um tempo de carregamento
-  };*/
 
   return (
     <View style={styles.container}>
