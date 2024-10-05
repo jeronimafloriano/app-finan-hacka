@@ -7,7 +7,7 @@ export default function FinanceScreen() {
     <ScrollView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.greeting}>Hello, Joshepine</Text>
+        <Text style={styles.greeting}>Olá, João</Text>
         <Text style={styles.subHeader}>Here you can view overview of your budget</Text>
         <Ionicons name="notifications-outline" size={24} color="black" style={styles.icon} />
       </View>

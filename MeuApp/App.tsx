@@ -7,6 +7,7 @@ import { enableScreens } from 'react-native-screens';
 import { Image, View } from 'react-native';
 import FinanceScreen from './screens/FinanceScreen';
 import HomeScreen from './screens/HomeScreen';
+import ConfirmDataScreen from './screens/ConfirmDataScreen';
 
 // Tipos para ícones da tab bar
 type TabBarIconProps = {
@@ -64,6 +65,11 @@ export default function App() {
             ),
             headerTitleAlign: 'center', 
           }}
+        />
+        <Tab.Screen 
+          name="ConfirmDataScreen" 
+          component={ConfirmDataScreen} 
+          options={{ headerShown: false }} 
         />
       </Tab.Navigator>
     </NavigationContainer>

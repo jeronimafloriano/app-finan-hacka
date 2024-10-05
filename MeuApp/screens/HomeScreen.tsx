@@ -1,39 +1,58 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
+import ConfirmDataScreen from './ConfirmDataScreen';
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
+
   const objetivos = [
     {
-      text: "Entender minhas movimentações financeiras",
-      icon: "logo-whatsapp", 
+      text: "Pagar Dívidas",
+      icon: "payments", 
     },
     {
-      text: "Descobrir o que mais prejudica minhas finanças",
-      icon: "logo-whatsapp", 
+      text: "Juntar Dinheiro",
+      icon: "attach-money", 
     },
     {
-      text: "Ter uma previsão e me preparar para gastos futuros",
-      icon: "logo-whatsapp", 
+      text: "Comprar Imóvel",
+      icon: "house", 
     },
     {
-      text: "Criar um planejamento financeiro personalizado",
-      icon: "logo-whatsapp", 
+      text: "Comprar Veículo",
+      icon: "directions-car-filled", 
     },
     {
-      text: "Centralizar todos os meus gastos em uma só plataforma",
+      text: "Investir",
+      icon: "money", 
+    },
+    {
+      text: "Outros",
       icon: "logo-whatsapp", 
     }
   ];
+
+  const handleNavigation = (item) => {
+    if (item.text !== "Outros") {
+      navigation.navigate('ConfirmDataScreen');
+    } else {
+      alert('Você clicou na opção "Outros".'); // Ou você pode adicionar outra navegação aqui
+    }
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Chegou a hora de falar sobre suas expectativas com a EloDuca. Qual seu principal objetivo?</Text>
       {objetivos.map((item, index) => (
-        <TouchableOpacity key={index} style={styles.item}>
+        <TouchableOpacity 
+          key={index} 
+          style={styles.item} 
+          onPress={() => handleNavigation(item)} // Adiciona navegação ao clicar
+        >
           <View style={styles.iconContainer}>
-            <Ionicons name={"logo-whatsapp"} size={40} color="green" /> 
+            <MaterialIcons name={item.icon} size={20} color="black" /> 
           </View>
           <Text style={styles.itemText}>{item.text}</Text>
           <Text style={styles.arrow}>{'>'}</Text>
