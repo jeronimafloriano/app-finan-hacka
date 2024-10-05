@@ -31,6 +31,14 @@ export default function FinanceScreen() {
   ];
   const [transactionHistory, setTransactionHistory] = useState(transactions);
 
+  const mockFinancialData = {
+    totalIncome: 1550.0,
+    totalExpense: 2320.0,
+    totalEssentialExpense: 660.0,
+    totalNonEssentialExpense: 1328.0,
+    totalInvestment: 77.5,
+  };
+  
   // State for Modal visibility
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -182,16 +190,23 @@ export default function FinanceScreen() {
       </View>
       {/*sessão botão learning*/}
       <View style={styles.planSection}>
-        <View style={styles.planRow}>
-          <View style={styles.planCard}>
-          <TouchableOpacity onPress={() => navigation.navigate('ConteudoScreen')}>
-            <Entypo name="graduation-cap" size={24} style={styles.iconLearning}/>
-            <Text style={styles.buttonText}>
-            Descubra dicas incríveis para dominar seu dinheiro com estilo!
-            </Text>
-          </TouchableOpacity>
+        <Text style={styles.sectionTitle}>Meu Objetivo</Text>
+        <TouchableOpacity
+          style={styles.planCard}
+          onPress={() => navigation.navigate('FinancialPlanScreen', mockFinancialData)}
+        >
+          <Text style={styles.planCategory}>#Imóvel</Text>
+          <Text style={styles.planTitle}>Comprar Imóvel</Text>
+          <View style={styles.progressContainer}>
+            <Text>Progresso: R$240</Text>
+            <View style={styles.progressBar}>
+              <View
+                style={[styles.progressFill, { width: `${(240 / 400) * 100}%` }]}
+              />
+            </View>
+            <Text>Meta: R$400</Text>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
       
        {/*Banner*/}

@@ -8,9 +8,11 @@ import { Image } from 'react-native';
 import FinanceScreen from './screens/FinanceScreen';
 import ConfirmDataScreen from './screens/ConfirmDataScreen';
 import ConteudoScreen from './screens/ConteudoScreen';
-import HistoryScreen from './screens/HistoryScreen';  // Import HistoryScreen
+import HistoryScreen from './screens/HistoryScreen'; 
 import InitScreen from './screens/InitScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
+import FinancialPlanScreen from './screens/FinancialPlanScreen';
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -25,6 +27,10 @@ function FinanceStack() {
         component={FinanceScreen} 
         options={{headerShown: false}} 
       />
+      <Stack.Screen 
+        name="FinancialPlanScreen",
+        headerTitle: "Plano Financeiro",
+        component={FinancialPlanScreen} />
       <Stack.Screen 
         name="InitScreen" 
         component={InitScreen} 

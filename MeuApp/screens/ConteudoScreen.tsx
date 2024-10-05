@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput, ActivityIndicator, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
-import { WebView } from 'react-native-webview'; // Importe o WebView
 
 const ConteudoScreen = () => {
   const [chatVisible, setChatVisible] = useState(false);
@@ -90,12 +89,6 @@ const ConteudoScreen = () => {
             </TouchableOpacity>
           ))}
           <View id="video" style={styles.videoContainer}>
-          <WebView 
-              source={{ uri: 'https://www.youtube.com/embed/mMfXbF2DYfFfOEUN' }} // Substitua SEU_VIDEO_ID_AQUI pelo ID do vídeo
-              style={styles.video} 
-              javaScriptEnabled={true}
-              domStorageEnabled={true}
-            />
           </View>
         </View>
       </ScrollView>
