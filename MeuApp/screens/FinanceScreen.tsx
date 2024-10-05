@@ -12,11 +12,22 @@ import {
   Keyboard,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import HistoryScreen from './HistoryScreen';
 
 export default function FinanceScreen() {
   
   // State for budget amount
   const [budgetAmount, setBudgetAmount] = useState(1000);
+
+  const transactions = [
+    { id: 1, description: 'Salário', amount: 300.00, type: 'income', date: '2024-10-01' },
+    { id: 2, description: 'Venda de Produto', amount: 200.00, type: 'income', date: '2024-10-02' },
+    { id: 3, description: 'Aluguel', amount: -400.00, type: 'expense', date: '2024-10-03' },
+    { id: 4, description: 'Mercado', amount: -150.00, type: 'expense', date: '2024-10-04' },
+    { id: 5, description: 'Investimentos', amount: 50.00, type: 'income', date: '2024-10-05' }
+  ];
+  const [transactionHistory, setTransactionHistory] = useState(transactions);
 
   // State for Modal visibility
   const [modalVisible, setModalVisible] = useState(false);
@@ -27,6 +38,8 @@ export default function FinanceScreen() {
   // States for input fields
   const [description, setDescription] = useState('');
   const [value, setValue] = useState('');
+
+  const navigation = useNavigation();
 
   // Handler to open modal for income
   const handleAddIncome = () => {
@@ -44,7 +57,6 @@ export default function FinanceScreen() {
     setModalVisible(true);
   };
 
-  // Handler for submitting the transaction
   const handleSubmit = () => {
     const numericValue = parseFloat(value.replace(',', '.'));
 
@@ -52,6 +64,15 @@ export default function FinanceScreen() {
       Alert.alert('Valor Inválido', 'Por favor, insira um valor válido maior que 0.');
       return;
     }
+
+    const newTransaction = {
+      description,
+      amount: transactionType === 'income' ? numericValue : -numericValue,
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+
+    setTransactionHistory((prev) => [newTransaction, ...prev]);
 
     if (transactionType === 'income') {
       setBudgetAmount((prev) => prev + numericValue);
@@ -79,11 +100,16 @@ export default function FinanceScreen() {
       </View>
 
       {/* Budget Section */}
-      <View style={styles.budgetSection}>
+      <TouchableOpacity
+        style={styles.budgetSection}
+        onPress={() => navigation.navigate('HistoryScreen', { transactions: transactionHistory })}
+        accessibilityLabel="Minhas receitas"
+      >
         <Text style={styles.budgetTitle}>Minhas receitas</Text>
         <Text style={styles.budgetAmount}>
           R$ {budgetAmount.toFixed(2).replace('.', ',')}
         </Text>
+        <Ionicons name="chevron-forward-outline" size={16} color="black" style={styles.iconFoward} />
         <View style={styles.buttonGroup}>
           <TouchableOpacity
             style={styles.button}
@@ -102,7 +128,7 @@ export default function FinanceScreen() {
             <Text style={styles.buttonText}>Adicionar despesa</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
 
       {/* Budget Overview */}
       <View style={styles.overview}>
@@ -144,15 +170,21 @@ export default function FinanceScreen() {
               <Text>R$240</Text>
               <View style={styles.progressBar}>
                 <View
-                  style={[
-                    styles.progressFill,
-                    { width: `${(240 / 400) * 100}%` },
-                  ]}
+                  style={[styles.progressFill, { width: `${(240 / 400) * 100}%` }]}
                 />
               </View>
               <Text>R$400</Text>
             </View>
           </View>
+        </View>
+      </View>
+
+       <View style={styles.offersSection}>
+        <Text style={styles.sectionTitle}>Ofertas</Text>
+        <View style={styles.offerCard}>
+          <Text style={styles.offerText}>
+            Contrate agora e ganhe 1000 pontos Livelo!
+          </Text>
         </View>
       </View>
 
@@ -207,22 +239,27 @@ export default function FinanceScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F0F0F0',
-    padding: 20,
+        backgroundColor: '#F0F0F0',
+padding: 20,
   },
   header: {
     marginTop: 50,
     position: 'relative',
-  },
+      },
   greeting: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#000',
+color: '#000',
   },
   subHeader: {
     fontSize: 14,
     color: 'gray',
-    marginTop: 5,
+marginTop: 5,
+  },
+  iconFoward: {
+    position: 'absolute',
+    right: 10,
+    top: 15,
   },
   icon: {
     position: 'absolute',
@@ -253,7 +290,7 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E6FFDA',
+backgroundColor: '#E6FFDA',
     padding: 10,
     borderRadius: 5,
     flex: 1,
@@ -271,7 +308,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
-    color: '#000',
+color: '#000',
   },
   overviewRow: {
     flexDirection: 'row',
@@ -290,18 +327,18 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   percentage: {
-    color: 'green',
+        color: 'green',
     fontWeight: 'bold',
     marginTop: 5,
   },
   percentageRed: {
-    color: 'red',
+        color: 'red',
     fontWeight: 'bold',
     marginTop: 5,
   },
   amount: {
-    marginTop: 5,
-    fontWeight: 'bold',
+        marginTop: 5,
+fontWeight: 'bold',
     color: '#000',
   },
   planSection: {
@@ -357,7 +394,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     width: '85%',
     backgroundColor: '#fff',
-    borderRadius: 10,
+   borderRadius: 10,
     padding: 20,
     elevation: 5,
   },
@@ -398,4 +435,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000',
   },
+  offersSection: {
+    marginVertical: 20,
+    padding: 15,
+    backgroundColor: '#f9f9f9',
+    borderRadius: 8,
+    elevation: 3,
+  },
+  offerCard: {
+    padding: 15,
+    backgroundColor: '#e0ffe0',
+    borderRadius: 8,
+  },
+  offerText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  }
 });

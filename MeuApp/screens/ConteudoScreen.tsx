@@ -39,7 +39,7 @@ const ConteudoScreen = () => {
         const API_ENDPOINT = Constants.manifest.extra.apiEndpoint;
         const API_VERSION = Constants.manifest.extra.apiVersion;
 
-        const response = await fetch(`${API_ENDPOINT}/sopenai/deployments/gpt-4/chat/completions?api-version=${API_VERSION}`, {
+        const response = await fetch(`${API_ENDPOINT}/openai/deployments/gpt-4/chat/completions?api-version=${API_VERSION}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ const ConteudoScreen = () => {
               </View>
             )}
             {errorMessage !== '' && (
-              <Text style={styles.errorMessage}>{errorMessage}</Text> // Display error message
+              <Text style={styles.errorMessage}>{errorMessage}</Text>
             )}
           </ScrollView>
 

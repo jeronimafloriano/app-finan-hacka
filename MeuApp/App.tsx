@@ -4,23 +4,35 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 
-import { enableScreens } from 'react-native-screens';
-import { Image, View } from 'react-native';
+import { Image } from 'react-native';
 import FinanceScreen from './screens/FinanceScreen';
 import HomeScreen from './screens/HomeScreen';
 import ConfirmDataScreen from './screens/ConfirmDataScreen';
 import ConteudoScreen from './screens/ConteudoScreen';
-
-// Tipos para ícones da tab bar
-type TabBarIconProps = {
-  color: string;
-  size: number;
-};
+import HistoryScreen from './screens/HistoryScreen';  // Import HistoryScreen
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-enableScreens();
+function FinanceStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="FinanceScreen" 
+        component={FinanceScreen} 
+        options={{headerShown: false}} 
+      />
+      <Stack.Screen 
+        name="HistoryScreen" 
+        component={HistoryScreen} 
+        options={{ 
+          headerTitle: "Transaction History",
+          headerTitleAlign: 'center'
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 function HomeStack() {
   return (
@@ -36,15 +48,13 @@ function HomeStack() {
               resizeMode="contain"
             />
           ),
-          headerTitleAlign: 'center', 
-        }}
+          headerTitleAlign: 'center',
+        }} 
       />
       <Stack.Screen 
         name="ConfirmDataScreen" 
         component={ConfirmDataScreen} 
-        options={{
-          headerShown: false, // ou customize o header como quiser
-        }} 
+        options={{ headerShown: false }} 
       />
     </Stack.Navigator>
   );
@@ -54,6 +64,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator
+        initialRouteName='Finanças'
         screenOptions={({ route }) => ({
           tabBarIcon: ({ color, size }) => {
             if (route.name === 'Home') {
@@ -68,15 +79,14 @@ export default function App() {
           tabBarInactiveTintColor: 'gray',
         })}
       >
-        {/* Usando o Stack Navigator dentro da aba Home */}
         <Tab.Screen 
           name="Home" 
           component={HomeStack} 
-          options={{ headerShown: false }}
+          options={{ headerShown: false }} 
         />
         <Tab.Screen 
           name="Finanças" 
-          component={FinanceScreen} 
+          component={FinanceStack}
           options={{
             headerTitle: () => (
               <Image
@@ -85,8 +95,8 @@ export default function App() {
                 resizeMode="contain"
               />
             ),
-            headerTitleAlign: 'center', 
-          }}
+            headerTitleAlign: 'center',
+          }} 
         />
         <Tab.Screen 
           name="Conteúdos" 
@@ -99,8 +109,8 @@ export default function App() {
                 resizeMode="contain"
               />
             ),
-            headerTitleAlign: 'center', 
-          }}
+            headerTitleAlign: 'center',
+          }} 
         />
       </Tab.Navigator>
     </NavigationContainer>
