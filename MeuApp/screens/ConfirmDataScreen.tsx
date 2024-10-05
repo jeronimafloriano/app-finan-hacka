@@ -1,50 +1,97 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, ActivityIndicator } from 'react-native';
 
 const ConfirmDataScreen = () => {
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const [ganhos, setGanhos] = useState("R$ 5,00");
+  const [despesasEssenciais, setDespesasEssenciais] = useState("R$ 2,00");
+  const [despesasNaoEssenciais, setDespesasNaoEssenciais] = useState("R$ 1,00");
+
+  // Lista de instituições
+  const instituicoes = ['BB', 'CEF', 'BRA'];
 
   const handleConfirm = () => {
     setLoading(true);
-    // Simular uma ação, como uma requisição à API
     setTimeout(() => {
       setLoading(false);
       alert("Dados confirmados!");
-    }, 2000); // Exemplo de tempo de carregamento simulado
+    }, 2000); // Simula um tempo de carregamento
+  };
+
+  const handleEdit = () => {
+    setIsEditing(!isEditing); // Alterna entre modo de edição e exibição
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Confirmar Dados</Text>
-      
-      <View style={styles.dataRow}>
-        <Text style={styles.label}>Ganhos Recebidos:</Text>
-        <Text style={styles.value}>R$ 5,00</Text>
+
+      {/* Caixa para "Ganhos Recebidos" */}
+      <View style={styles.item}>
+        <Text style={styles.itemText}>Ganhos Recebidos</Text>
+        {isEditing ? (
+          <TextInput
+            style={styles.input}
+            value={ganhos}
+            onChangeText={setGanhos}
+            keyboardType="numeric"
+          />
+        ) : (
+          <Text style={styles.value}>{ganhos}</Text>
+        )}
       </View>
 
-      <View style={styles.dataRow}>
-        <Text style={styles.label}>Despesas Essenciais:</Text>
-        <Text style={styles.value}>R$ 2,00</Text>
+      {/* Caixa para "Despesas Essenciais" */}
+      <View style={styles.item}>
+        <Text style={styles.itemText}>Despesas Essenciais</Text>
+        {isEditing ? (
+          <TextInput
+            style={styles.input}
+            value={despesasEssenciais}
+            onChangeText={setDespesasEssenciais}
+            keyboardType="numeric"
+          />
+        ) : (
+          <Text style={styles.value}>{despesasEssenciais}</Text>
+        )}
       </View>
 
-      <View style={styles.dataRow}>
-        <Text style={styles.label}>Despesas Não Essenciais:</Text>
-        <Text style={styles.value}>R$ 1,00</Text>
+      {/* Caixa para "Despesas Não Essenciais" */}
+      <View style={styles.item}>
+        <Text style={styles.itemText}>Despesas Não Essenciais</Text>
+        {isEditing ? (
+          <TextInput
+            style={styles.input}
+            value={despesasNaoEssenciais}
+            onChangeText={setDespesasNaoEssenciais}
+            keyboardType="numeric"
+          />
+        ) : (
+          <Text style={styles.value}>{despesasNaoEssenciais}</Text>
+        )}
       </View>
 
-      <Text style={styles.label}>Instituições Consultadas:</Text>
-      <View style={styles.institutions}>
-        <Text style={styles.institution}>- BB</Text>
-        <Text style={styles.institution}>- CEF</Text>
-        <Text style={styles.institution}>- BRA</Text>
-      </View>
+      {/* Caixa para "Instituições Consultadas" */}
+      <View style={styles.item}>
+  <Text style={styles.itemText}>Instituições Consultadas</Text>
+  {/* Adicionar marginTop para espaçamento entre o título e as instituições */}
+  <View style={styles.institutionContainer}> 
+    {instituicoes.map((instituicao, index) => (
+      <Text key={index} style={styles.institutionText}>- {instituicao}</Text>
+    ))}
+  </View>
+</View>
 
+
+      {/* Loading e botões de ação */}
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.buttonEdit}>
-            <Text style={styles.buttonText}>Editar</Text>
+          <TouchableOpacity style={styles.buttonEdit} onPress={handleEdit}>
+            <Text style={styles.buttonText}>{isEditing ? 'Salvar' : 'Editar'}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.buttonConfirm} onPress={handleConfirm}>
@@ -69,25 +116,48 @@ const styles = StyleSheet.create({
     color: '#000',
     textAlign: 'center',
   },
-  dataRow: {
+  item: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 10,
+    alignItems: 'center',
+    padding: 15,
+    borderRadius: 10,
+    backgroundColor: '#ffffff',
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
   },
-  label: {
+  itemText: {
     fontSize: 16,
-    color: '#000',
+    color: '#000000',
+    marginBottom: 5, // Adiciona espaçamento entre o texto e as instituições
+  },
+  institutionContainer: {
+    marginTop: 5, // Adiciona espaçamento entre o título e as instituições
+  },
+  institutionText: {
+    fontSize: 16,
+    color: '#000000',
+    marginTop: 2,  // Pequeno espaçamento entre as instituições
   },
   value: {
     fontSize: 16,
     fontWeight: 'bold',
   },
-  institutions: {
-    marginVertical: 10,
+  input: {
+    fontSize: 16,
+    borderBottomWidth: 1,
+    borderColor: '#007AFF',
+    width: 100,
+    textAlign: 'right',
   },
-  institution: {
+  label: {
     fontSize: 16,
     color: '#000',
+    marginTop: 20,
   },
   buttonContainer: {
     flexDirection: 'row',

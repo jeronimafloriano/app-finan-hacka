@@ -8,64 +8,64 @@ export default function FinanceScreen() {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.greeting}>Olá, João</Text>
-        <Text style={styles.subHeader}>Here you can view overview of your budget</Text>
+        <Text style={styles.subHeader}>Aqui você pode ver uma visão geral das suas finanças</Text>
         <Ionicons name="notifications-outline" size={24} color="black" style={styles.icon} />
       </View>
 
       {/* Budget Section */}
       <View style={styles.budgetSection}>
-        <Text style={styles.budgetTitle}>My budget</Text>
-        <Text style={styles.budgetAmount}>$ 1.550,00</Text>
+        <Text style={styles.budgetTitle}>Minhas receitas</Text>
+        <Text style={styles.budgetAmount}>R$ 1.550,00</Text>
         <View style={styles.buttonGroup}>
           <TouchableOpacity style={styles.button}>
             <Ionicons name="download-outline" size={16} color="black" />
-            <Text style={styles.buttonText}>Add Income</Text>
+            <Text style={styles.buttonText}>Adicionar renda</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
             <Ionicons name="download-outline" size={16} color="black" />
-            <Text style={styles.buttonText}>Add Spending</Text>
+            <Text style={styles.buttonText}>Adicionar despesa</Text>
           </TouchableOpacity>
         </View>
       </View>
 
       {/* Budget Overview */}
       <View style={styles.overview}>
-        <Text style={styles.sectionTitle}>Budget overview</Text>
+        <Text style={styles.sectionTitle}>Visão geral das finanças no último mês</Text>
         <View style={styles.overviewRow}>
           <View style={styles.overviewCard}>
             <Ionicons name="download-outline" size={24} color="black" />
             <Text style={styles.percentage}>+2.63%</Text>
-            <Text style={styles.amount}>Incomes</Text>
-            <Text style={styles.amount}>$3.000,00</Text>
+            <Text style={styles.amount}>Rendimentos</Text>
+            <Text style={styles.amount}>R$3.000,00</Text>
           </View>
           <View style={styles.overviewCard}>
             <Ionicons name="download-outline" size={24} color="black" />
             <Text style={styles.percentageRed}>+1.89%</Text>
-            <Text style={styles.amount}>Spending</Text>
-            <Text style={styles.amount}>$1.450,00</Text>
+            <Text style={styles.amount}>Gastos</Text>
+            <Text style={styles.amount}>R$1.450,00</Text>
           </View>
         </View>
       </View>
 
       {/* My Plan Section */}
       <View style={styles.planSection}>
-        <Text style={styles.sectionTitle}>My Plan</Text>
+        <Text style={styles.sectionTitle}>Meu Objetivo</Text>
         <View style={styles.planRow}>
           <View style={styles.planCard}>
-            <Text style={styles.planCategory}>#Vacation</Text>
-            <Text style={styles.planTitle}>Trip to Waduk Cengklik</Text>
+            <Text style={styles.planCategory}>#Imóvel</Text>
+            <Text style={styles.planTitle}>Comprar Imóvel</Text>
             <View style={styles.progress}>
-              <Text>$249</Text>
-              <Text>$400</Text>
+              <Text>R$249</Text>
+              <Text>R$400</Text>
             </View>
           </View>
-          <View style={styles.planCard}>
-            <Text style={styles.planCategory}>#work</Text>
-            <Text style={styles.planTitle}>Building Desk Setup</Text>
+          {/* <View style={styles.planCard}>
+            <Text style={styles.planCategory}>#Trabalho</Text>
+            <Text style={styles.planTitle}>Configuração do Setup de Trabalho</Text>
             <View style={styles.progress}>
-              <Text>$249</Text>
+              <Text>R$249</Text>
             </View>
-          </View>
+          </View> */}
         </View>
       </View>
     </ScrollView>
@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
     top: 0,
   },
   budgetSection: {
-    backgroundColor: '#DFFF85',
+    //backgroundColor: '#DFFF85',
+    backgroundColor: '#90EE90',
     borderRadius: 10,
     padding: 20,
     marginTop: 20,
