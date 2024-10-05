@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput, ActivityIndicator, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
+import { WebView } from 'react-native-webview'; // Importe o WebView
 
 const ConteudoScreen = () => {
   const [chatVisible, setChatVisible] = useState(false);
@@ -10,7 +11,7 @@ const ConteudoScreen = () => {
     { id: 1, texto: "Olá! Como posso te ajudar com assuntos financeiros hoje?", tipo: 'sistema' },
   ]);
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(''); 
+  const [errorMessage, setErrorMessage] = useState(''); // New error message state
 
   const noticias = [
     { id: 1, titulo: "Fundamentos da Educação Financeira", resumo: "Entenda os conceitos básicos de finanças pessoais..." },
@@ -32,10 +33,9 @@ const ConteudoScreen = () => {
       setMensagens([...mensagens, novaMensagem]);
       setMensagem('');
       setLoading(true);
-      setErrorMessage(''); 
+      setErrorMessage(''); // Reset error message
 
       try {
-
         const API_KEY = Constants.manifest.extra.apiKey;
         const API_ENDPOINT = Constants.manifest.extra.apiEndpoint;
         const API_VERSION = Constants.manifest.extra.apiVersion;
@@ -49,7 +49,7 @@ const ConteudoScreen = () => {
           },
           body: JSON.stringify({
             messages: [
-              { role: 'system', content: 'Você é um assistente virtual financeiro, você só responde perguntas relacionadas a finanças.' },
+              { role: 'system', content: 'Você é um assistente virtual financeiro.' },
               { role: 'user', content: mensagem }
             ],
           }),
@@ -89,6 +89,14 @@ const ConteudoScreen = () => {
               <Ionicons name="chevron-forward-outline" size={16} color="black" style={styles.icon} />
             </TouchableOpacity>
           ))}
+          <View id="video" style={styles.videoContainer}>
+          <WebView 
+              source={{ uri: 'https://www.youtube.com/embed/mMfXbF2DYfFfOEUN' }} // Substitua SEU_VIDEO_ID_AQUI pelo ID do vídeo
+              style={styles.video} 
+              javaScriptEnabled={true}
+              domStorageEnabled={true}
+            />
+          </View>
         </View>
       </ScrollView>
 
@@ -193,6 +201,13 @@ const styles = StyleSheet.create({
     bottom: 30,
     right: 20,
     elevation: 2,
+  },
+  videoContainer: {
+    height: 200, // Ajuste a altura conforme necessário
+    marginVertical: 20,
+  },
+  video: {
+    flex: 1,
   },
   iconImage: {
     width: 60,

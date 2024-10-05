@@ -6,13 +6,16 @@ import {
   ScrollView,
   TouchableOpacity,
   Modal,
+  Image,
   TextInput,
   Alert,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Entypo from '@expo/vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
+import HistoryScreen from './HistoryScreen';
 
 export default function FinanceScreen() {
   
@@ -28,15 +31,19 @@ export default function FinanceScreen() {
   ];
   const [transactionHistory, setTransactionHistory] = useState(transactions);
 
+  // State for Modal visibility
   const [modalVisible, setModalVisible] = useState(false);
 
+  // State to determine transaction type ('income' or 'expense')
   const [transactionType, setTransactionType] = useState('income');
 
+  // States for input fields
   const [description, setDescription] = useState('');
   const [value, setValue] = useState('');
 
   const navigation = useNavigation();
 
+  // Handler to open modal for income
   const handleAddIncome = () => {
     setTransactionType('income');
     setDescription('');
@@ -139,7 +146,7 @@ export default function FinanceScreen() {
             />
             <Text style={styles.percentage}>+2.63%</Text>
             <Text style={styles.amount}>Rendimentos</Text>
-            <Text style={styles.amount}>R$100,00</Text>
+            <Text style={styles.amount}>R$3.000,00</Text>
           </View>
           <View style={styles.overviewCard}>
             <Ionicons
@@ -149,7 +156,7 @@ export default function FinanceScreen() {
             />
             <Text style={styles.percentageRed}>-1.89%</Text>
             <Text style={styles.amount}>Gastos</Text>
-            <Text style={styles.amount}>R$700,00</Text>
+            <Text style={styles.amount}>R$1.450,00</Text>
           </View>
         </View>
       </View>
@@ -173,14 +180,28 @@ export default function FinanceScreen() {
           </View>
         </View>
       </View>
-
-       <View style={styles.offersSection}>
-        <Text style={styles.sectionTitle}>Ofertas</Text>
-        <View style={styles.offerCard}>
-          <Text style={styles.offerText}>
-            Contrate agora e ganhe 1000 pontos Livelo!
-          </Text>
+      {/*sessão botão learning*/}
+      <View style={styles.planSection}>
+        <View style={styles.planRow}>
+          <View style={styles.planCard}>
+          <TouchableOpacity onPress={() => navigation.navigate('ConteudoScreen')}>
+            <Entypo name="graduation-cap" size={24} style={styles.iconLearning}/>
+            <Text style={styles.buttonText}>
+            Descubra dicas incríveis para dominar seu dinheiro com estilo!
+            </Text>
+          </TouchableOpacity>
+          </View>
         </View>
+      </View>
+      
+       {/*Banner*/}
+      <View style={styles.offersSection}>
+        <Text style={styles.sectionTitle}>Ofertas</Text>
+        <Image 
+          source={require('../assets/plano-pet.png')} 
+          style={styles.offerImage} 
+          resizeMode="contain" 
+        />
       </View>
 
       {/* Modal for Adding Income/Expense */}
@@ -234,31 +255,44 @@ export default function FinanceScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-        backgroundColor: '#F0F0F0',
-padding: 20,
+    backgroundColor: '#F0F0F0',
+    padding: 20,
   },
   header: {
     marginTop: 50,
     position: 'relative',
-      },
+  },
   greeting: {
     fontSize: 22,
     fontWeight: 'bold',
-color: '#000',
+    color: '#000',
   },
   subHeader: {
     fontSize: 14,
     color: 'gray',
-marginTop: 5,
+    marginTop: 5,
   },
   iconFoward: {
     position: 'absolute',
     right: 10,
     top: 15,
   },
+  iconLearning: {
+    position: 'absolute',
+    color: '#000',
+    left: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
   icon: {
     position: 'absolute',
     right: 0,
+    top: 0,
+  },
+  entypo: {
+    position: 'absolute',
+    left: 0,
     top: 0,
   },
   budgetSection: {
@@ -285,7 +319,7 @@ marginTop: 5,
   button: {
     flexDirection: 'row',
     alignItems: 'center',
-backgroundColor: '#E6FFDA',
+    backgroundColor: '#E6FFDA',
     padding: 10,
     borderRadius: 5,
     flex: 1,
@@ -303,7 +337,7 @@ backgroundColor: '#E6FFDA',
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
-color: '#000',
+    color: '#000',
   },
   overviewRow: {
     flexDirection: 'row',
@@ -322,18 +356,18 @@ color: '#000',
     elevation: 3,
   },
   percentage: {
-        color: 'green',
+    color: 'green',
     fontWeight: 'bold',
     marginTop: 5,
   },
   percentageRed: {
-        color: 'red',
+    color: 'red',
     fontWeight: 'bold',
     marginTop: 5,
   },
   amount: {
-        marginTop: 5,
-fontWeight: 'bold',
+    marginTop: 5,
+    fontWeight: 'bold',
     color: '#000',
   },
   planSection: {
@@ -389,7 +423,7 @@ fontWeight: 'bold',
   modalContainer: {
     width: '85%',
     backgroundColor: '#fff',
-   borderRadius: 10,
+    borderRadius: 10,
     padding: 20,
     elevation: 5,
   },
@@ -439,12 +473,16 @@ fontWeight: 'bold',
   },
   offerCard: {
     padding: 15,
-    backgroundColor: '#e0ffe0',
+    backgroundColor: '#FFFFFF',
     borderRadius: 8,
   },
   offerText: {
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-  }
+  },
+  offerImage: {
+    width: 300,
+    height: 300,  // Ajuste de altura conforme necessário
+  },
 });
