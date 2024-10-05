@@ -192,11 +192,11 @@ const styles = StyleSheet.create({
   iconButton: {
     position: 'absolute',
     bottom: 30,
-    right: 20,
+    right: 45,
     elevation: 2,
   },
   videoContainer: {
-    height: 200, // Ajuste a altura conforme necessário
+    height: 200, 
     marginVertical: 20,
   },
   video: {
