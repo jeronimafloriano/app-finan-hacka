@@ -39,18 +39,13 @@ const ConteudoScreen = () => {
         const API_ENDPOINT = Constants.manifest.extra.apiEndpoint;
         const API_VERSION = Constants.manifest.extra.apiVersion;
 
-        const response = await fetch(`${API_ENDPOINT}/openai/deployments/gpt-4/chat/completions?api-version=${API_VERSION}`, {
+        const response = await fetch(`http://localhost:8080/chat/ask`, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            'api-key': `${API_KEY}`, 
-            'azure-region': 'canadacentral'
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            messages: [
-              { role: 'system', content: 'Você é um assistente virtual financeiro.' },
-              { role: 'user', content: mensagem }
-            ],
+            question: mensagem
           }),
         });
 
@@ -59,7 +54,7 @@ const ConteudoScreen = () => {
         }
 
         const data = await response.json();
-        const aiResponse = data.choices[0].message.content;
+        const aiResponse = data.response;
 
         const novaMensagemAI = { id: mensagens.length + 2, texto: aiResponse, tipo: 'sistema' };
         setMensagens((prevMensagens) => [...prevMensagens, novaMensagemAI]);

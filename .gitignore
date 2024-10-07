@@ -401,3 +401,7 @@ FodyWeavers.xsd
 .DS_Store
 .DS_Store
 package-lock.json
+/.idea/app-finan-hacka.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
